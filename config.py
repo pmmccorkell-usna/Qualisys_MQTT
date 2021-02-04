@@ -22,9 +22,11 @@ qtm_server="172.30.35.230"      # overhead SURF Win10
 # pick a unique clientname to prevent collisions with other clients
 # Only uncomment one, depending on which server you desire.
 # sub_clientname="mydesk"			# Pat's desk
+sub_clientname="win10desk"			# Pat's workstation
 # sub_clientname="surfpi_sub"		# SURF Pi
 # sub_clientname="reddwarf"		# submarine
-sub_clientname="overhead_qtm"   # SURF underwater NUC
+# sub_clientname="overhead_qtm"   # SURF underwater NUC
+
 
 # pick a unique clientname to prevent collisions with other clients
 # Only uncomment one, depending on which server you desire.
