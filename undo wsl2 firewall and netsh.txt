@@ -1,0 +1,4 @@
+remove from firewall incoming and outgoing rules
+
+netsh interface portproxy delete v4tov4 listenport=1883 listenaddress='0.0.0.0'
+netsh interface portproxy delete v4tov4 listenport=8883 listenaddress='0.0.0.0'
