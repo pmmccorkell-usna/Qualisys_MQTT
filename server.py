@@ -15,7 +15,7 @@ clientname="surfpi_sub"		# SURF
 # clientname="reddwarf"		# submarine
 
 # filename='/Users/Levi DeVries/Downloads/mqtt_1.log'
-filename='/mnt/c/Python/Qualisys_MQTT/mqtt_1.log'
+default_directory='/mnt/c/Python/Qualisys_MQTT/log/'
 
 
 topiclist=[
@@ -25,7 +25,8 @@ topiclist=[
     'W2P2',
     'KITE',
     'bodyD',
-	'head'
+	'head',
+    'L-frame'
 ]
 
 

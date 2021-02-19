@@ -7,11 +7,12 @@ from gc import collect as trash
 import json
 import os
 from server import *
+from random import randint
 
 #                       #
 #-----Logging Setup-----#
 #                       #
-#filename='/Users/Levi DeVries/Downloads/mqtt_1.log'
+filename=default_directory + datetime.now().strftime('qtm_mqtt_%Y%m%d_%H:%M:%s.log')
 log = logging.getLogger()
 log.setLevel(logging.INFO)
 format = logging.Formatter('%(asctime)s : %(message)s')
@@ -23,7 +24,8 @@ log.addHandler(file_handler)
 #                       #
 #-------MQTT Setup------#
 #                       #
-client=MQTT.Client(clientname)
+name = clientname + str(randint(1000,9999))
+client=MQTT.Client(name)
 
 
 # basic callback for MQTT that prints message data directly.
@@ -39,7 +41,7 @@ def print_message(client,userdata,message):
 
 # A basic callback for MQTT that stores message data to a log file.
 def log_message(client,userdata,message):
-	log.info("message rx")
+	#log.info("message rx")
 	log.info(str(message.topic)+", "+str(message.payload))
 
 # The callback that our program will use to control device.

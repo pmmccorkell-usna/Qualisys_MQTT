@@ -2,3 +2,6 @@ mqtt_1.log
 config.py
 settings.py
 .gitattributes
+*.log
+*.pyo
+*.pyc

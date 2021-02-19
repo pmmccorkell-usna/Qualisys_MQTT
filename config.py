@@ -2,10 +2,8 @@
 # Only uncomment 1 line for each variable
 
 
-<<<<<<< Updated upstream
 mqtt_broker = '127.0.0.1'       # loopback
 #mqtt_broker = '192.168.5.4'    #SURFnet IP
-=======
 # pick a unique clientname to prevent collisions with other clients
 # Only uncomment one, depending on which server you desire.
 # sub_clientname="mydesk"			# Pat's desk
@@ -25,8 +23,11 @@ pub_clientname="overhead_pub"   # SURF overhead NUC
 default_folder="/mnt/c/Python/Qualisys_MQTT"		# WSL on Win10
 #default_folder="/home/pi/mqtt/"	                # RasPi
 #default_folder="/Users/Levi DeVries/Downloads/"    #Win10
->>>>>>> Stashed changes
 
-#qtm_server = '10.0.0.118'      # old IP
-#qtm_server='192.168.5.4'       # SURFnet IP
-qtm_server='127.0.0.1'          # loopback
+# qtm_server = '10.0.0.118'      # old IP
+# qtm_server='192.168.5.4'       # SURFnet IP
+# qtm_server='127.0.0.1'          # loopback
+qtm_server='10.60.17.244'       # TSD office computer
+
+#DEBUGGING=0
+DEBUGGING=1

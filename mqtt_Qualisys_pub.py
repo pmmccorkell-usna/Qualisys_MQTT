@@ -7,8 +7,10 @@ import asyncio
 import qtm
 import xml.etree.ElementTree as ET
 from config import *
+from random import randint
 
-client = MQTT.Client("qtm_pub")
+name=pub_clientname+str(randint(1000,9999))
+client = MQTT.Client(name)
 
 # initialize global array of publish topics (will be appended with rigid body names)
 pub_topics = [
@@ -58,7 +60,7 @@ def on_packet(packet):
         count = 1
         for body in bodies:
             msg_pos = {"index":index,"x":str(body[0][0]),"y":str(body[0][1]),"z":str(body[0][2])}
-            msg_ortn = {"index":index,"a1":body[1][0],"a2":body[1][1],"a3":body[1][2]}
+            msg_ortn = {"index":index,"r":body[1][0],"p":body[1][1],"h":body[1][2]}
             print("\t\n",pub_topics[count]+'/'+'position',msg_pos,"\t\n")
             print("\t\n",pub_topics[count]+'/'+'orientation',msg_ortn,"\t\n")
             client.publish(pub_topics[count]+'/'+'position',json.dumps(msg_pos))
@@ -95,8 +97,11 @@ async def setup():
 
 
 if __name__ == "__main__":
-    setup()
-    while(1):
-        sleep(1)
-        trash()
+    asyncio.ensure_future(setup())
+    asyncio.get_event_loop().run_forever()
+
+    # setup()
+    # while(1):
+    #     sleep(1)
+    #     trash()
 
