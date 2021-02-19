@@ -8,12 +8,10 @@ import json
 import os
 from server import *
 
-DEBUGGING=1
-
 #                       #
 #-----Logging Setup-----#
 #                       #
-filename='/Users/Levi DeVries/Downloads/mqtt_1.log'
+#filename='/Users/Levi DeVries/Downloads/mqtt_1.log'
 log = logging.getLogger()
 log.setLevel(logging.INFO)
 format = logging.Formatter('%(asctime)s : %(message)s')
@@ -26,14 +24,7 @@ log.addHandler(file_handler)
 #-------MQTT Setup------#
 #                       #
 client=MQTT.Client(clientname)
-topiclist=[
-	'timestamp',
-        'STARBOARD ROTOR',
-        'PORT ROTOR',
-        'W2P2',
-        'KITE',
-        'bodyD'
-]
+
 
 # basic callback for MQTT that prints message data directly.
 def print_message(client,userdata,message):
@@ -69,7 +60,8 @@ def setup_subscription():
 
 		# Assigns the callback function when a mqtt message is received.
 		if (DEBUGGING):
-			client.on_message=print_message
+			# client.on_message=print_message
+			client.on_message=log_message
 		else:
 			client.on_message=process
 

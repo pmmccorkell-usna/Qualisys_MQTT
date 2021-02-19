@@ -36,6 +36,7 @@ def parseXML(xmlfile):
 def on_packet(packet):
     """ Callback function that is called everytime a data packet arrives from QTM """
     global pub_topics
+    index=str(packet.framenumber)
     print("Framenumber: {}".format(packet.framenumber))
     if qtm.packet.QRTComponentType.Component6d in packet.components:
         print("6D Packet\n")
@@ -44,8 +45,8 @@ def on_packet(packet):
         print(type(bodies))
         count = 1
         for body in bodies:
-            msg_pos = {"x":str(body[0][0]),"y":str(body[0][1]),"z":str(body[0][2])}
-            msg_ortn = {"R":body[1][0]}
+            msg_pos = {"index":index,"x":str(body[0][0]),"y":str(body[0][1]),"z":str(body[0][2])}
+            msg_ortn = {"index":index,"R":body[1][0]}
             print("\t\n",pub_topics[count]+'/'+'position',msg_pos,"\t\n")
             print("\t\n",pub_topics[count]+'/'+'orientation',msg_ortn,"\t\n")
             client.publish(pub_topics[count]+'/'+'position',json.dumps(msg_pos))
@@ -56,8 +57,8 @@ def on_packet(packet):
         header,bodies = packet.get_6d_euler()
         count = 1
         for body in bodies:
-            msg_pos = {"x":str(body[0][0]),"y":str(body[0][1]),"z":str(body[0][2])}
-            msg_ortn = {"a1":body[1][0],"a2":body[1][1],"a3":body[1][2]}
+            msg_pos = {"index":index,"x":str(body[0][0]),"y":str(body[0][1]),"z":str(body[0][2])}
+            msg_ortn = {"index":index,"a1":body[1][0],"a2":body[1][1],"a3":body[1][2]}
             print("\t\n",pub_topics[count]+'/'+'position',msg_pos,"\t\n")
             print("\t\n",pub_topics[count]+'/'+'orientation',msg_ortn,"\t\n")
             client.publish(pub_topics[count]+'/'+'position',json.dumps(msg_pos))
