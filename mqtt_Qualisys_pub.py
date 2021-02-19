@@ -95,7 +95,8 @@ async def setup():
 
 
 if __name__ == "__main__":
-    asyncio.ensure_future(setup())
-    asyncio.get_event_loop().run_forever()
-
+    setup()
+    while(1):
+        sleep(1)
+        trash()
 
