@@ -6,6 +6,7 @@ from gc import collect as trash
 import asyncio
 import qtm
 import xml.etree.ElementTree as ET
+from config import *
 
 client = MQTT.Client("qtm_pub")
 
@@ -69,13 +70,13 @@ async def setup():
     """ Main function """
     # Connect to MQTT Broker
     try:
-            client.connect('127.0.0.1')
-            print("Connected to MQTT broker")
+            client.connect(mqtt_broker)
+            print("Connected to MQTT broker: "+mqtt_broker)
     except:
-            print("didn't connect")
+            print("didn't connect to "+mqtt_broker)
 
     # Connect to QTM Server
-    connection = await qtm.connect("10.0.0.118")
+    connection = await qtm.connect(qtm_server)
     if connection is None:
         return
     
