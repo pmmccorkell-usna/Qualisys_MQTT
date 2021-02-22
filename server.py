@@ -2,11 +2,11 @@
 # IPs for different MQTT server Pis.
 # Only uncomment one, depending on which server you desire.
 #
-server="127.0.0.1"	# loopback
+# server="127.0.0.1"	# loopback
 # server="172.30.35.102"	# Pat's desk
 # server="172.30.38.181"	# SURF nonet
 # server="192.168.5.4"      # SURFnet
-
+server = '10.60.5.238'
 
 # pick a unique clientname to prevent collisions with other clients
 # Only uncomment one, depending on which server you desire.
@@ -26,7 +26,8 @@ topiclist=[
     'KITE',
     'bodyD',
 	'head',
-    'L-frame'
+    'L-frame',
+    'TestBoat'
 ]
 
 
