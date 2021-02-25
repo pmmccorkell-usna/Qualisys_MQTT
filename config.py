@@ -25,9 +25,9 @@ default_folder="/mnt/c/Python/Qualisys_MQTT"		# WSL on Win10
 #default_folder="/Users/Levi DeVries/Downloads/"    #Win10
 
 # qtm_server = '10.0.0.118'      # old IP
-# qtm_server='192.168.5.4'       # SURFnet IP
 # qtm_server='127.0.0.1'          # loopback
-qtm_server='10.60.17.244'       # TSD office computer
+qtm_server='192.168.5.4'       # SURFnet IP
+# qtm_server='10.60.17.244'       # TSD office computer
 
 #DEBUGGING=0
 DEBUGGING=1

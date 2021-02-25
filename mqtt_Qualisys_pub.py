@@ -8,6 +8,7 @@ import qtm
 import xml.etree.ElementTree as ET
 from config import *
 from random import randint
+from math import isnan
 
 name=pub_clientname+str(randint(1000,9999))
 client = MQTT.Client(name)
@@ -18,90 +19,92 @@ pub_topics = [
 	]
 
 def parseXML(xmlfile): 
-    global pub_topics  
-    # create element tree object 
-    tree = ET.parse(xmlfile)
+	global pub_topics  
+	# create element tree object 
+	tree = ET.parse(xmlfile)
   
-    # get root element 
-    root = tree.getroot()
-    
-    # find the names of all the body elements
-    for rigbod in root.iter('Name'):
-        print(rigbod.text)
-        # append rigid body names to publish topic list
-        pub_topics.append(str(rigbod.text))
-    #print(items)
-    # TODO: What to do if it returns no rigid bodies
+	# get root element 
+	root = tree.getroot()
+	
+	# find the names of all the body elements
+	for rigbod in root.iter('Name'):
+		# append rigid body names to publish topic list
+		if (rigbod.text != None):
+			print(rigbod.text)
+			pub_topics.append(str(rigbod.text))
+	print(pub_topics)
+	# TODO: What to do if it returns no rigid bodies
 
 
 #function definition
 def on_packet(packet):
-    """ Callback function that is called everytime a data packet arrives from QTM """
-    global pub_topics
-    index=str(packet.framenumber)
-    print("Framenumber: {}".format(packet.framenumber))
-    if qtm.packet.QRTComponentType.Component6d in packet.components:
-        print("6D Packet\n")
-        [header, bodies] = packet.get_6d()
-        print("Component info: {}".format(header))
-        print(type(bodies))
-        count = 1
-        for body in bodies:
-            msg_pos = {"index":index,"x":str(body[0][0]),"y":str(body[0][1]),"z":str(body[0][2])}
-            msg_ortn = {"index":index,"R":body[1][0]}
-            print("\t\n",pub_topics[count]+'/'+'position',msg_pos,"\t\n")
-            print("\t\n",pub_topics[count]+'/'+'orientation',msg_ortn,"\t\n")
-            client.publish(pub_topics[count]+'/'+'position',json.dumps(msg_pos))
-            client.publish(pub_topics[count]+'/'+'orientation',json.dumps(msg_ortn))
-            count = count+1
-    elif qtm.packet.QRTComponentType.Component6dEuler in packet.components:
-        print('6D Euler Angle Packet')
-        header,bodies = packet.get_6d_euler()
-        count = 1
-        for body in bodies:
-            msg_pos = {"index":index,"x":str(body[0][0]),"y":str(body[0][1]),"z":str(body[0][2])}
-            msg_ortn = {"index":index,"r":body[1][0],"p":body[1][1],"h":body[1][2]}
-            print("\t\n",pub_topics[count]+'/'+'position',msg_pos,"\t\n")
-            print("\t\n",pub_topics[count]+'/'+'orientation',msg_ortn,"\t\n")
-            client.publish(pub_topics[count]+'/'+'position',json.dumps(msg_pos))
-            client.publish(pub_topics[count]+'/'+'orientation',json.dumps(msg_ortn))
-            count = count+1
-    else:
-        print("Unidentified packet type")
+	''' Callback function that is called everytime a data packet arrives from QTM '''
+	global pub_topics
+	index=str(packet.framenumber)
+	#print("Framenumber: {}".format(packet.framenumber))
+	if qtm.packet.QRTComponentType.Component6d in packet.components:
+		#print("6D Packet\n")
+		[header, bodies] = packet.get_6d()
+		#print("Component info: {}".format(header))
+		#print(type(bodies))
+		count = 1
+		for body in bodies:
+			msg_pos = {'index':index,'x':str(body[0][0]),'y':str(body[0][1]),'z':str(body[0][2])}
+			msg_ortn = {'index':index,'R':body[1][0]}
+			print("\t\n",pub_topics[count]+'/'+'position',msg_pos,'\t\n')
+			print("\t\n",pub_topics[count]+'/'+'orientation',msg_ortn,'\t\n')
+			client.publish(pub_topics[count]+'/'+'position',json.dumps(msg_pos))
+			client.publish(pub_topics[count]+'/'+'orientation',json.dumps(msg_ortn))
+			count = count+1
+	elif qtm.packet.QRTComponentType.Component6dEuler in packet.components:
+		#print("6D Euler Angle Packet")
+		header,bodies = packet.get_6d_euler()
+		count = 1
+		for body in bodies:
+			if not isnan(body[0][0]):
+				msg_pos = {'index':index,'x':str(body[0][0]),'y':str(body[0][1]),'z':str(body[0][2])}
+				msg_ortn = {'index':index,'r':body[1][0],'p':body[1][1],'h':body[1][2]}
+				#print("\t\n",pub_topics[count]+'/'+'position',msg_pos,'\t\n')
+				#print("\t\n",pub_topics[count]+'/'+'orientation',msg_ortn,'\t\n')
+				client.publish(pub_topics[count]+'/'+'position',json.dumps(msg_pos))
+				client.publish(pub_topics[count]+'/'+'orientation',json.dumps(msg_ortn))
+			count = count+1
+	else:
+		print("Unidentified packet type")
 
 async def setup():
-    """ Main function """
-    # Connect to MQTT Broker
-    try:
-            client.connect(mqtt_broker)
-            print("Connected to MQTT broker: "+mqtt_broker)
-    except:
-            print("didn't connect to "+mqtt_broker)
+	''' Main function '''
+	# Connect to MQTT Broker
+	try:
+			client.connect(mqtt_broker)
+			print("Connected to MQTT broker: "+mqtt_broker)
+	except:
+			print("didn't connect to "+mqtt_broker)
 
-    # Connect to QTM Server
-    connection = await qtm.connect(qtm_server)
-    if connection is None:
-        return
-    
-    # Pull Session parameters from QTM, includes rigid body names
-    tmp = await connection.get_parameters(parameters=["6d"])
+	# Connect to QTM Server
+	connection = await qtm.connect(qtm_server)
+	if connection is None:
+		return
+	
+	# Pull Session parameters from QTM, includes rigid body names
+	tmp = await connection.get_parameters(parameters=['6d'])
 
-    # saving the xml file (currently the only way I know how to read the incoming packet tmp is to write it to file first)
-    with open('params6D.xml', 'wb') as f: 
-        f.write(tmp)
-    
-    # Parse xml file to pull out rigid body names
-    parseXML('params6D.xml')
-    
-    await connection.stream_frames(components=["6deuler"], on_packet=on_packet)
+	# saving the xml file (currently the only way I know how to read the incoming packet tmp is to write it to file first)
+	with open('params6D.xml', 'wb') as f: 
+		f.write(tmp)
+	
+	# Parse xml file to pull out rigid body names
+	parseXML('params6D.xml')
+	
+	await connection.stream_frames(components=['6deuler'], on_packet=on_packet)
 
 
-if __name__ == "__main__":
-    asyncio.ensure_future(setup())
-    asyncio.get_event_loop().run_forever()
+if __name__ == '__main__':
+	asyncio.ensure_future(setup())
+	asyncio.get_event_loop().run_forever()
 
-    # setup()
-    # while(1):
-    #     sleep(1)
-    #     trash()
+	# setup()
+	# while(1):
+	#	 sleep(1)
+	#	 trash()
 

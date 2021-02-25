@@ -5,3 +5,7 @@ settings.py
 *.log
 *.pyo
 *.pyc
+params6D.xml
+server.py
+6dof ex.txt
+config.py

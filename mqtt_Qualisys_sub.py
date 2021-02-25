@@ -9,9 +9,9 @@ import os
 from server import *
 from random import randint
 
-#                       #
+#					   #
 #-----Logging Setup-----#
-#                       #
+#					   #
 filename=default_directory + datetime.now().strftime('qtm_mqtt_%Y%m%d_%H:%M:%s.log')
 log = logging.getLogger()
 log.setLevel(logging.INFO)
@@ -21,9 +21,9 @@ file_handler.setLevel(logging.INFO)
 file_handler.setFormatter(format)
 log.addHandler(file_handler)
 
-#                       #
+#					   #
 #-------MQTT Setup------#
-#                       #
+#					   #
 name = clientname + str(randint(1000,9999))
 client=MQTT.Client(name)
 
@@ -31,7 +31,7 @@ client=MQTT.Client(name)
 # basic callback for MQTT that prints message data directly.
 def print_message(client,userdata,message):
 	print()
-	print("mqtt rx:")
+	print('mqtt rx:')
 	print(message.topic)
 	print(message.qos)
 	print(message.payload)
@@ -41,8 +41,8 @@ def print_message(client,userdata,message):
 
 # A basic callback for MQTT that stores message data to a log file.
 def log_message(client,userdata,message):
-	#log.info("message rx")
-	log.info(str(message.topic)+", "+str(message.payload))
+	#log.info('message rx')
+	log.info(str(message.topic)+', '+str(message.payload))
 
 # The callback that our program will use to control device.
 def process(client,userdata,message):
@@ -73,11 +73,11 @@ def setup_subscription():
 
 		# Start the mqtt subscription.
 		client.loop_start()
-		log.info("mqtt subscription script started")
+		log.info('mqtt subscription script started')
 		check=1
 	except:
 		print("didn't connect")
-		log.info("mqtt subscription failed")
+		log.info('mqtt subscription failed')
 	return check
 
 def main():
