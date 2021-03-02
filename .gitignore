@@ -10,3 +10,4 @@ server.py
 6dof ex.txt
 config.py
 *.xml
+params6D.xml
