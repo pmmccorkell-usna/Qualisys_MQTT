@@ -9,3 +9,4 @@ params6D.xml
 server.py
 6dof ex.txt
 config.py
+*.xml
