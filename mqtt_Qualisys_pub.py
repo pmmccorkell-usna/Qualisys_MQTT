@@ -12,6 +12,7 @@ from math import isnan
 
 name=pub_clientname+str(randint(1000,9999))
 client = MQTT.Client(name)
+topic_prefix = 'QTM/'
 
 # initialize global array of publish topics (will be appended with rigid body names)
 pub_topics = [
@@ -53,8 +54,8 @@ def on_packet(packet):
 			msg_ortn = {'index':index,'R':body[1][0]}
 			print("\t\n",pub_topics[count]+'/'+'position',msg_pos,'\t\n')
 			print("\t\n",pub_topics[count]+'/'+'orientation',msg_ortn,'\t\n')
-			client.publish(pub_topics[count]+'/'+'position',json.dumps(msg_pos))
-			client.publish(pub_topics[count]+'/'+'orientation',json.dumps(msg_ortn))
+			client.publish(topic_prefix+pub_topics[count]+'/'+'position',json.dumps(msg_pos))
+			client.publish(topic_prefix+pub_topics[count]+'/'+'orientation',json.dumps(msg_ortn))
 			count = count+1
 	elif qtm.packet.QRTComponentType.Component6dEuler in packet.components:
 		#print("6D Euler Angle Packet")

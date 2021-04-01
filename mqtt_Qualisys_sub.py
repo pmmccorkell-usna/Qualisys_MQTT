@@ -26,6 +26,7 @@ log.addHandler(file_handler)
 #					   #
 name = clientname + str(randint(1000,9999))
 client=MQTT.Client(name)
+topic_prefix = 'QTM/'
 
 
 # basic callback for MQTT that prints message data directly.
@@ -69,7 +70,7 @@ def setup_subscription():
 
 		# Subscribes to all the topics defined at top.
 		for i in topiclist:
-			client.subscribe(i+'/'+'#')
+			client.subscribe(topic_prefix+i+'/'+'#')
 
 		# Start the mqtt subscription.
 		client.loop_start()
