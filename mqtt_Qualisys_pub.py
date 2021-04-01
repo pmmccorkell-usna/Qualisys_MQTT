@@ -65,10 +65,10 @@ def on_packet(packet):
 			if not isnan(body[0][0]):
 				msg_pos = {'index':index,'x':str(body[0][0]),'y':str(body[0][1]),'z':str(body[0][2])}
 				msg_ortn = {'index':index,'r':body[1][0],'p':body[1][1],'h':body[1][2]}
-				#print("\t\n",pub_topics[count]+'/'+'position',msg_pos,'\t\n')
-				#print("\t\n",pub_topics[count]+'/'+'orientation',msg_ortn,'\t\n')
-				client.publish(pub_topics[count]+'/'+'position',json.dumps(msg_pos))
-				client.publish(pub_topics[count]+'/'+'orientation',json.dumps(msg_ortn))
+				#print("\t\n",topic_prefix+pub_topics[count]+'/'+'position',msg_pos,'\t\n')
+				#print("\t\n",topic_prefix+pub_topics[count]+'/'+'orientation',msg_ortn,'\t\n')
+				client.publish(topic_prefix+pub_topics[count]+'/'+'position',json.dumps(msg_pos))
+				client.publish(topic_prefix+pub_topics[count]+'/'+'orientation',json.dumps(msg_ortn))
 			count = count+1
 	else:
 		print("Unidentified packet type")
