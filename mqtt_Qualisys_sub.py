@@ -71,6 +71,7 @@ def setup_subscription():
 		# Subscribes to all the topics defined at top.
 		for i in topiclist:
 			client.subscribe(topic_prefix+i+'/'+'#')
+			print('subscribed to ' + topic_prefix+i+'/'+'#')
 
 		# Start the mqtt subscription.
 		client.loop_start()

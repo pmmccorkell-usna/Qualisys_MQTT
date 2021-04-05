@@ -19,7 +19,17 @@ pub_topics = [
 	'timestamp'
 	]
 
-def parseXML(xmlfile): 
+def parseXML(xml):
+	global pub_topics
+	root = ET.fromstring(xml)
+
+	for rigbod in root.iter('Name'):
+		if (rigbod.text != None):
+			print(rigbod.text)
+			pub_topics.append(str(rigbod.text))
+	print(pub_topics)
+
+def parseXML_file(xmlfile): 
 	global pub_topics  
 	# create element tree object 
 	tree = ET.parse(xmlfile)
@@ -89,14 +99,15 @@ async def setup():
 	
 	# Pull Session parameters from QTM, includes rigid body names
 	tmp = await connection.get_parameters(parameters=['6d'])
+	parseXML(tmp)
 
 	# saving the xml file, for examination and instructional  purposes.
-	with open('params6D.xml', 'wb') as f: 
-		f.write(tmp)
+	#with open('params6D.xml', 'wb') as f: 
+	#	f.write(tmp)
 	
 	# Parse xml file to pull out rigid body names
-	parseXML('params6D.xml')
-	
+	#parseXML_file('params6D.xml')
+		
 	await connection.stream_frames(components=['6deuler'], on_packet=on_packet)
 
 
