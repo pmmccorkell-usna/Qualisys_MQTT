@@ -104,7 +104,7 @@ async def setup():
 	# saving the xml file, for examination and instructional  purposes.
 	#with open('params6D.xml', 'wb') as f: 
 	#	f.write(tmp)
-	
+
 	# Parse xml file to pull out rigid body names
 	#parseXML_file('params6D.xml')
 		
