@@ -15,8 +15,8 @@ clientname='surfpi_sub'		# SURF
 # clientname="reddwarf"		# submarine
 
 # default_directory='/Users/Levi DeVries/Downloads/'
-# default_directory='/mnt/c/Python/Qualisys_MQTT/log/'
-default_directory='/mnt/c/python_code/Qualisys_MQTT/log/'
+default_directory='/mnt/c/Python/Qualisys_MQTT/log/'
+# default_directory='/mnt/c/python_code/Qualisys_MQTT/log/'
 
 
 topiclist=[
@@ -29,6 +29,7 @@ topiclist=[
 	'head',
     'L-frame',
     'TestBoat',
+    'RedDwarf',
     'None'
 ]
 
