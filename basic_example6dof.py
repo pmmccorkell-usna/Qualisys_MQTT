@@ -1,3 +1,10 @@
+# Patrick McCorkell
+# March 2021
+# US Naval Academy
+# Robotics and Control TSD
+#
+
+
 """
     Minimal usage example
     Connects to QTM and streams 3D data forever
