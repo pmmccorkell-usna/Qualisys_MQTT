@@ -2,7 +2,6 @@
 # March 2021
 # US Naval Academy
 # Robotics and Control TSD
-#
 
 import json
 from time import sleep
